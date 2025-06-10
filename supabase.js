@@ -1,11 +1,14 @@
-const { createClient } = require('@supabase/supabase-js');
+const { Pool } = require('pg');
 require('dotenv').config();
 
-// Инициализация клиента Supabase
-const supabase = createClient(
-    process.env.SUPABASE_URL,
-    process.env.SUPABASE_ANON_KEY
-);
+// Инициализация пула соединений с PostgreSQL
+const pool = new Pool({
+    host: process.env.PGHOST || 'host.docker.internal',
+    port: process.env.PGPORT || 5433,
+    user: process.env.PGUSER || 'postgres',
+    password: process.env.PGPASSWORD || 'postgres',
+    database: process.env.PGDATABASE || 'postgres'
+});
 
 /**
  * Сохраняет данные заявки в таблицу leads
@@ -14,12 +17,11 @@ const supabase = createClient(
  */
 async function saveLead(data) {
     try {
-        const { data: result, error } = await supabase
-            .from('leads')
-            .insert([data]);
-
-        if (error) throw error;
-        return result;
+        const result = await pool.query(
+            'INSERT INTO leads (name, phone, message) VALUES ($1, $2, $3) RETURNING *',
+            [data.name, data.phone, data.message]
+        );
+        return result.rows[0];
     } catch (error) {
         console.error('Ошибка при сохранении заявки:', error);
         throw error;

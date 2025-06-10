@@ -1,0 +1,15 @@
+# Telegram Bot Token
+TELEGRAM_TOKEN=8193020011:AAF8Qv85vUsqL-wPl6LLR_OkjxKIIo-vY_4
+
+# PostgreSQL credentials
+PGHOST=host.docker.internal
+PGPORT=5433
+PGUSER=postgres
+PGPASSWORD=postgres
+PGDATABASE=postgres
+
+# Admin Telegram ID
+ADMIN_ID=876708399
+
+# Frontend WebApp URL
+FRONTEND_URL=https://web-production-db18.up.railway.app/
