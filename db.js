@@ -1,11 +1,13 @@
 const { Pool } = require('pg');
+require('dotenv').config();
 
 const pool = new Pool({
-  host: 'localhost',
-  port: 5432,
-  user: 'postgres',
-  password: 'postgres',
-  database: 'postgres',
+  host: process.env.PGHOST || 'localhost',
+  port: process.env.PGPORT || 5432,
+  user: process.env.PGUSER || 'postgres',
+  password: process.env.PGPASSWORD || 'postgres',
+  database: process.env.PGDATABASE || 'postgres',
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
 });
 
 async function saveLead({ name, phone, message }) {
