@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оставить заявку</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #0088cc;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Оставить заявку</h1>
+    <form id="leadForm">
+        <label for="name">Имя:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="phone">Телефон:</label>
+        <input type="tel" id="phone" name="phone" required>
+        <label for="message">Сообщение:</label>
+        <textarea id="message" name="message" rows="4" required></textarea>
+        <button type="submit">Отправить</button>
+    </form>
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        document.getElementById('leadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const data = {
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                message: document.getElementById('message').value
+            };
+            tg.sendData(JSON.stringify(data));
+            tg.close();
+        });
+    </script>
+</body>
+</html> 
